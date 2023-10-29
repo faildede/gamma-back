@@ -1,10 +1,11 @@
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using todogamma.Models;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.AspNetCore.Cors;
 
+[ApiController]
+[EnableCors("MyPolicy")] 
+[Route("[controller]")]
 
-[Route("api/[controller]")]
 public class DeviceController : Controller 
 {
     private readonly IDevice _device;
@@ -12,12 +13,16 @@ public class DeviceController : Controller
     {
         _device = device;
     }
+
+  
+    [EnableCors("MyPolicy")]
     [HttpGet]
     public IEnumerable<Device> Get()
     {
         return _device.GetAll();
     }
     [HttpGet("{id}")]
+    [EnableCors("MyPolicy")]
     public Device Get(int id)
     {
         return _device.Get(id);

@@ -1,16 +1,26 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using todogamma.Models;
+using Microsoft.AspNetCore.Identity;
+using todogamma.Service;
 
 
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(options => 
+{
+    options.AddPolicy(name: "MyPolicy",
+     policy => 
+     {  
+        policy.WithOrigins("http://localhost:5173")
+                .WithMethods("GET", "POST", "PUT")
+               .AllowAnyHeader();
+     });
+});
 
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<DeviceContext>(options => 
@@ -25,21 +35,29 @@ builder.Services.AddCors();
 
 
 builder.Services.AddControllers();
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => 
+{
+    options.Password.RequiredLength = 5;
+}).AddEntityFrameworkStores<DeviceContext>()
+.AddDefaultTokenProviders();
+
+builder.Services.AddTransient<IAuthServices, AuthService>();
 
 var app = builder.Build();
 
-app.UseCors(options => {
-    options.WithOrigins("http://localhost:5173/");
-});
+app.UseRouting();
 
-// Configure the HTTP request pipeline.
+
+app.UseCors();
+
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-//app.UseHttpsRedirection();
+
 
 app.UseAuthorization();
 

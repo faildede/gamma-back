@@ -3,13 +3,18 @@ using todogamma.Models;
 
 public class MockDevice : IDevice
 {
+
     private List<Device> _device;
     public MockDevice()
     {
+
         _device = new List<Device> 
         {
-            new Device { Title = "сварочный аппарат", Price=400, Img="https://images.satu.kz/84708848_svarochnyj-istochnik-flextec.jpg", Manufacturer="Flextec 350X",  },
-            new Device { Title = "сварочный аппарат", Price=400 },
+  
+            new Device { Title = "сварочный аппарат", Price=400, Img="https://www.kron.spb.ru/assets/image-cache/kron-03.85486864.png", Manufacturer="Flextec 350X", Description="nvdsivnisdnv",CategoryID=1,   },
+            new Device { Title = "сварочный аппарат", Price=400, Img="https://www.kron.spb.ru/assets/image-cache/kron-03.85486864.png", Manufacturer="Flextec 350X",Description="nvdsivnisdnv" , CategoryID=2 },
+            new Device { Title = "сварочный аппарат", Price=400, Img="https://www.kron.spb.ru/assets/image-cache/kron-03.85486864.png", Manufacturer="Flextec 350X",Description="nvdsivnisdnv" , CategoryID=3 },
+
         };
     }
     public IEnumerable<Device> GetAll()

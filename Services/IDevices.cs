@@ -1,3 +1,4 @@
+
 using todogamma.Models;
 
 public interface IDevice 
