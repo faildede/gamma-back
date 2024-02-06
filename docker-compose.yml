@@ -1,0 +1,40 @@
+version: '3.4'
+
+services:
+  todogamma:
+    image: docker.io/library/todogamma   
+    container_name: gamma
+    ports:
+     - "8088:8080"
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    depends_on:
+      - "gamma-db"
+    environment:
+      - ASPNETCORE=http://+:80
+      - CONNECTIONSTRINGS__DEFAULT=User ID=admin;Host=gamma-db;Port=25432;Database=gamma;Password=12345;
+
+  gamma-db:
+    container_name: gamma-db
+    image: postgres:14-alpine
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: 12345
+      POSTGRES_DB: gamma
+      POSTGRES_PORT: 25432
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+    ports:
+      - 25432:5432
+    volumes:
+      - ./data:/var/lib/postgresql/data
+
+
+
+networks:
+  gamma:
+    driver: bridge
+
+volumes:
+  gamma_db:
+
